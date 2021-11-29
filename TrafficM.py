@@ -219,7 +219,6 @@ def runModel():
     sample = ap.Sample(parameters, n=30)
     # Perform experiment
     model = IntersectionModel(parameters)
-    exp = ap.Experiment(model, sample, iterations=40)
-    results = exp.run()
-    results.save()
+    model.run()
+    model.save()
     return model.jsonCollectData

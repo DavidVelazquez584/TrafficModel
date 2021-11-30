@@ -24,17 +24,19 @@ class Vehicle(ap.Agent):
     def movement(self):
         self.direction()
         new_Dict = {}
-        new_Dict['""x""'] = f'""{self.pos[0]}""'
-        new_Dict['""y""'] = f'""{0}""'
-        new_Dict['""z""'] = f'""{self.pos[1]}""'
+        new_Dict["id"] = self.id
+        new_Dict["x"] = self.pos[0]
+        new_Dict["y"] = 0
+        new_Dict["z"] = self.pos[1]
         self.posDict.append(new_Dict)
         return (self.speed * self.side[0], self.speed * self.side[1])
 
     def add_position(self):
         new_Dict = {}
-        new_Dict['""x""'] = f'""{self.pos[0]}""'
-        new_Dict['""y""'] = f'""{0}""'
-        new_Dict['""z""'] = f'""{self.pos[1]}""'
+        new_Dict["id"] = self.id
+        new_Dict["x"] = self.pos[0]
+        new_Dict["y"] = 0
+        new_Dict["z"] = self.pos[1]
         self.posDict.append(new_Dict)
 
     def route(self):
@@ -197,9 +199,11 @@ class IntersectionModel(ap.Model):
     def end(self):
         jsonCollectData = {}
         vehicles = self.vehicles 
+        arregloPos = []
         for car in vehicles:
-            id = f'""{car.id}""'
-            jsonCollectData[id] = car.posDict
+            #id = f"{car.id}"
+            #jsonCollectData[id] = car.posDict
+            arregloPos = np.append(arregloPos, car.posDict)
             '''
             for i in range(len(car.posDict)):
                 if i == 0:
@@ -214,9 +218,11 @@ class IntersectionModel(ap.Model):
         
             jsonCollectData.update(car.posDict)
         '''
-        with open('archivoPosJson.txt', 'w') as file:
-            file.write(json.dumps(jsonCollectData)) # use `json.loads` to do the reverse
-        print(jsonCollectData)
+        print(arregloPos)
+        arregloPos = arregloPos.tolist()
+        jsonCollectData["data"] = arregloPos
+        with open('archivoPosJson.json', 'w') as file:
+            json.dump(jsonCollectData, file, indent=4)
         self.jsonCollectData = jsonCollectData
 
         pass

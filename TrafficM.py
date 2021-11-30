@@ -216,9 +216,10 @@ def runModel():
         'steps': 500,
         'Grid':25,
     }
-    sample = ap.Sample(parameters, n=30)
     # Perform experiment
+    print("hola")
     model = IntersectionModel(parameters)
     model.run()
-    model.save()
+    print("acabo")
+    print(model.jsonCollectData)
     return model.jsonCollectData

@@ -12,6 +12,5 @@ class MyHandler(BaseHTTPRequestHandler):
         # send the body of the response
         self.wfile.write(bytes(response, "utf-8"))
 
-data = runModel()
 httpd = HTTPServer(('localhost', 8020), MyHandler)
 httpd.serve_forever()

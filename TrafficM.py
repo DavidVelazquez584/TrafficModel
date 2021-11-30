@@ -52,6 +52,8 @@ class StopSign(ap.Agent):
         self.grid = self.model.grid
         self.pos = [0, 0]
         self.route=''
+        self.id = 0
+        self.statusDict = []
 
     def positions(self):
         self.pos = self.grid.positions[self]
@@ -73,6 +75,10 @@ class StopSign(ap.Agent):
             if self.pos[1] == int((tGrid/2)+1):
                 self.status = 0
                 self.road=4
+        new_Dict = {}
+        new_Dict["id"] = self.id
+        new_Dict["state"] = self.status
+        self.statusDict.append(new_Dict)
 
 class Roads(ap.Agent):
     def setup(self):
@@ -105,10 +111,14 @@ class IntersectionModel(ap.Model):
             
         self.grid.add_agents(self.stop_sign, positions=[(int((tGrid/2)-1), int((tGrid/2)+1)), (int((tGrid/2)+1), int((tGrid/2)-1))])
         stop_lights = self.stop_sign
+        contadorS = 0
         for semaforo in stop_lights:
             if self.grid.positions[semaforo][1]==0:
                 semaforo.route='Vertical'
-            else: semaforo.route='Horizontal'
+            else: 
+                semaforo.route='Horizontal'
+            semaforo.id = contadorS
+            contadorS+=1
         vehicles_positions=[]
         for i in range (1,n_vehicles+1):
             if i%2==0:
@@ -218,9 +228,15 @@ class IntersectionModel(ap.Model):
         
             jsonCollectData.update(car.posDict)
         '''
+        stopSigns = self.stop_sign
+        arregloSS = []
+        for stopSign in stopSigns:
+            arregloSS = np.append(arregloSS, stopSign.statusDict)
         print(arregloPos)
         arregloPos = arregloPos.tolist()
+        arregloSS = arregloSS.tolist()
         jsonCollectData["data"] = arregloPos
+        jsonCollectData["dataStopSign"] = arregloSS
         with open('archivoPosJson.json', 'w') as file:
             json.dump(jsonCollectData, file, indent=4)
         self.jsonCollectData = jsonCollectData
@@ -230,13 +246,12 @@ class IntersectionModel(ap.Model):
 def runModel():
     parameters = {
         'Vehicles': 15,
-        'steps': 10,
+        'steps': 50,
         'Grid':25,
     }
     # Perform experiment
-    print("hola")
     model = IntersectionModel(parameters)
     model.run()
-    print("acabo")
     print(model.jsonCollectData)
     return model.jsonCollectData
+    

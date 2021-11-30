@@ -29,6 +29,14 @@ class Vehicle(ap.Agent):
         new_Dict["z"] = self.pos[1]
         self.posDict.append(new_Dict)
         return (self.speed * self.side[0], self.speed * self.side[1])
+
+    def add_position(self):
+        new_Dict = {}
+        new_Dict["x"] = self.pos[0]
+        new_Dict["y"] = 0
+        new_Dict["z"] = self.pos[1]
+        self.posDict.append(new_Dict)
+
     def route(self):
         self.pos = self.grid.positions[self]
         if self.pos[1] == 0:
@@ -180,6 +188,9 @@ class IntersectionModel(ap.Model):
                 if movimiento:
                     coordinates_move=agents.movement()
                     self.grid.move_by(agents,coordinates_move)
+                else:
+                    agents.add_position()
+
         if self.contador == self.p['steps'] - 1:
             IntersectionModel.end(self)
 

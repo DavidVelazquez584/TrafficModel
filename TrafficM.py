@@ -224,7 +224,7 @@ class IntersectionModel(ap.Model):
 def runModel():
     parameters = {
         'Vehicles': 15,
-        'steps': 500,
+        'steps': 10,
         'Grid':25,
     }
     # Perform experiment

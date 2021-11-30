@@ -32,9 +32,9 @@ class Vehicle(ap.Agent):
 
     def add_position(self):
         new_Dict = {}
-        new_Dict["x"] = self.pos[0]
-        new_Dict["y"] = 0
-        new_Dict["z"] = self.pos[1]
+        new_Dict['""x""'] = f'""{self.pos[0]}""'
+        new_Dict['""y""'] = f'""{0}""'
+        new_Dict['""z""'] = f'""{self.pos[1]}""'
         self.posDict.append(new_Dict)
 
     def route(self):

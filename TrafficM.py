@@ -76,7 +76,7 @@ class StopSign(ap.Agent):
                 self.status = 0
                 self.road=4
         new_Dict = {}
-        new_Dict["id"] = self.id
+        new_Dict["idSS"] = self.id
         new_Dict["state"] = self.status
         self.statusDict.append(new_Dict)
 
@@ -246,7 +246,7 @@ class IntersectionModel(ap.Model):
 def runModel():
     parameters = {
         'Vehicles': 15,
-        'steps': 50,
+        'steps': 500,
         'Grid':25,
     }
     # Perform experiment
